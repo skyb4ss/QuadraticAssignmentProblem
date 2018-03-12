@@ -4,9 +4,11 @@ import consts.Constants;
 import tools.FitnessCalculator;
 import tools.Pair;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class GeneticAlgorithm {
@@ -59,12 +61,12 @@ public class GeneticAlgorithm {
             for (int j = 0; j < populationSize / 2; j++) {
                 Individual individualA, individualB;
 
-                if (selectionMethod.equals("roulette")) {
-                    individualA = performRouletteWheelSpinSelection();
-                    individualB = performRouletteWheelSpinSelection();
-                } else {
+                if (selectionMethod.equals("tournament")) {
                     individualA = performTournamentSelection();
                     individualB = performTournamentSelection();
+                } else {
+                    individualA = performRouletteWheelSpinSelection();
+                    individualB = performRouletteWheelSpinSelection();
                 }
 
                 if (random.nextDouble() <= crossoverProbability) {
@@ -97,7 +99,7 @@ public class GeneticAlgorithm {
                 bestSolution = new Individual(sortedIndividuals.get(0));
             }
 
-            if (Constants.SHOULD_LOG) {
+            if (Constants.SHOULD_LOG_CHART_DATA) {
                 log(i, sortedIndividuals);
             }
         }
@@ -130,10 +132,7 @@ public class GeneticAlgorithm {
      * @return the best individual
      */
     private Individual performTournamentSelection() {
-        Population populationCopy = new Population(population);
-        //List<Individual> individuals = population.getIndividuals();
-        List<Individual> individuals = populationCopy.getIndividuals();
-
+        List<Individual> individuals = population.getIndividuals();
         // Shuffle individuals in order to easily get random entities
         Collections.shuffle(individuals);
 
@@ -153,6 +152,11 @@ public class GeneticAlgorithm {
      */
     private Individual performRouletteWheelSpinSelection() {
         List<Individual> individuals = population.getIndividuals();
+
+        for (Individual individual : individuals) {
+            double scaledFitness = (double)1 / individual.getFitness() * 1000000;
+            individual.setFitness((int) scaledFitness);
+        }
         int totalFitness = 0;
 
         for (Individual individual : individuals) {
