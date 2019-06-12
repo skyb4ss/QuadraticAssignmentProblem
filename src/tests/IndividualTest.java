@@ -11,7 +11,7 @@ public class IndividualTest {
     public void newIndividualShouldHaveNonEmptyListOfGenes() {
         Individual individual = new QAPIndividual(5);
 
-        for (Integer i : ((QAPIndividual) individual).getGenes()) assertNotNull(i);
+        for (Integer i : ((QAPIndividual) individual).getPermutation()) assertNotNull(i);
     }
 
     @Test

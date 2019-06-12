@@ -3,44 +3,26 @@ package geneticAlgorithm;
 import utils.QAPData;
 
 public class GeneticAlgorithmParams {
-    private int N;
-    private int[][] flowMatrix, distanceMatrix;
-
     private double crossoverProbability, mutationProbability;
     private int populationSize;
 
-    public GeneticAlgorithmParams(QAPData qapData,
-                                  double crossoverProbability, double mutationProbability,
-                                  int populationSize) {
-        N = qapData.getN();
-        flowMatrix = qapData.getFlowMatrix();
-        distanceMatrix = qapData.getDistanceMatrix();
+    public GeneticAlgorithmParams(
+            double crossoverProbability, double mutationProbability,
+            int populationSize) {
         this.crossoverProbability = crossoverProbability;
         this.mutationProbability = mutationProbability;
         this.populationSize = populationSize;
     }
 
-    public int getN() {
-        return N;
-    }
-
-    public int[][] getFlowMatrix() {
-        return flowMatrix;
-    }
-
-    public int[][] getDistanceMatrix() {
-        return distanceMatrix;
-    }
-
-    public double getCrossoverProbability() {
+    double getCrossoverProbability() {
         return crossoverProbability;
     }
 
-    public double getMutationProbability() {
+    double getMutationProbability() {
         return mutationProbability;
     }
 
-    public int getPopulationSize() {
+    int getPopulationSize() {
         return populationSize;
     }
 }

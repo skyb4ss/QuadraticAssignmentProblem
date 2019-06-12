@@ -1,8 +1,9 @@
 package geneticAlgorithm;
 
 import consts.Params;
-import utils.FitnessCalculator;
+import utils.CostCalculator;
 import utils.Pair;
+import utils.QAPData;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,13 +12,15 @@ import java.util.List;
 public class QAPPopulation implements Population {
     private List<QAPIndividual> individuals;
     private GeneticAlgorithmParams params;
+    private QAPData qapData;
 
-    QAPPopulation(GeneticAlgorithmParams params) {
+    QAPPopulation(QAPData qapData, GeneticAlgorithmParams params) {
         individuals = new ArrayList<>(params.getPopulationSize());
         this.params = params;
+        this.qapData = qapData;
 
         for (int i = 0; i < params.getPopulationSize(); i++)
-            individuals.add(new QAPIndividual(params.getN()));
+            individuals.add(new QAPIndividual(qapData.getN()));
     }
 
     public QAPPopulation() {
@@ -44,6 +47,7 @@ public class QAPPopulation implements Population {
     public Population evolve() {
         QAPPopulation newPopulation = new QAPPopulation();
         newPopulation.params = params;
+        newPopulation.qapData = qapData;
 
         // population divided by 2, because each time we add 2 new individuals
         for (int j = 0; j < individuals.size() / 2; j++) {
@@ -99,10 +103,9 @@ public class QAPPopulation implements Population {
 
     private void calculateFitness() {
         for (QAPIndividual individual : individuals) {
-            int fitness = FitnessCalculator.calculateFitness(params.getN(),
-                    params.getFlowMatrix(), params.getDistanceMatrix(), individual.getGenes());
+            int cost = CostCalculator.calculateCost(qapData, individual.getPermutation());
 
-            individual.setFitness(fitness);
+            individual.setFitness(cost);
         }
     }
 }

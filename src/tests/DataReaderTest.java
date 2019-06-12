@@ -9,9 +9,6 @@ import java.io.FileNotFoundException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-/**
- * Created by Krzysztof on 2018-03-02.
- */
 public class DataReaderTest {
 
     @Test

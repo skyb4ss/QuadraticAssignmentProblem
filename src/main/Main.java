@@ -1,38 +1,42 @@
 package main;
 
-import consts.Params;
 import geneticAlgorithm.GeneticAlgorithm;
+import geneticAlgorithm.QAPGeneticAlgorithm;
 import geneticAlgorithm.GeneticAlgorithmParams;
+import geneticAlgorithm.Individual;
 import utils.QAPData;
 import utils.QAPDataReader;
 
 import java.io.FileNotFoundException;
 
+import static consts.Params.*;
+
 public class Main {
     public static void main(String[] args) throws FileNotFoundException {
-        String[] dataFileNames = Params.FILE_NAMES;
+        String[] dataFileNames = FILE_NAMES;
+        GeneticAlgorithmParams params = getGeneticAlgorithmParams();
 
         for (String dataFileName : dataFileNames) {
             QAPData qapData = readQAPData(dataFileName);
 
-            runGeneticAlgorithm(qapData);
+            Individual solution = runGeneticAlgorithm(qapData, params);
+            System.out.println(solution.getFitness());
         }
     }
 
-    private static void runGeneticAlgorithm(QAPData qapData) {
-        GeneticAlgorithmParams geneticAlgorithmParams = new GeneticAlgorithmParams(qapData,
-                Params.CROSSOVER_PROBABILITY,
-                Params.MUTATION_PROBABILITY, Params.POPULATION_SIZE);
+    private static Individual runGeneticAlgorithm(QAPData qapData, GeneticAlgorithmParams params) {
+        GeneticAlgorithm geneticAlgorithm = new QAPGeneticAlgorithm(qapData, params);
 
-
-        GeneticAlgorithm geneticAlgorithm = new GeneticAlgorithm(geneticAlgorithmParams);
-
-        geneticAlgorithm.run();
-        System.out.println(geneticAlgorithm.getBestSolution().getFitness());
+        return geneticAlgorithm.findSolution();
     }
 
     private static QAPData readQAPData(String filename) throws FileNotFoundException {
         return QAPDataReader.readData("dataFiles/" + filename);
+    }
+
+    private static GeneticAlgorithmParams getGeneticAlgorithmParams() {
+        return new GeneticAlgorithmParams(CROSSOVER_PROBABILITY, MUTATION_PROBABILITY,
+                POPULATION_SIZE);
     }
 
 }

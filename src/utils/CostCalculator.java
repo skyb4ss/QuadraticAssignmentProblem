@@ -2,9 +2,9 @@ package utils;
 
 import java.util.List;
 
-public class FitnessCalculator {
+public class CostCalculator {
 
-    public static int calculateFitness(QAPData qapData, List<Integer> genes) {
+    public static int calculateCost(QAPData qapData, List<Integer> permutation) {
         int cost = 0;
 
         int N = qapData.getN();
@@ -13,7 +13,7 @@ public class FitnessCalculator {
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                cost += flowMatrix[i][j] * distanceMatrix[genes.get(i)][genes.get(j)];
+                cost += flowMatrix[i][j] * distanceMatrix[permutation.get(i)][permutation.get(j)];
             }
         }
 
