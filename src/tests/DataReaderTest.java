@@ -1,7 +1,10 @@
 package tests;
 
 import org.junit.Test;
-import tools.DataReader;
+import utils.QAPData;
+import utils.QAPDataReader;
+
+import java.io.FileNotFoundException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -10,26 +13,22 @@ import static org.junit.Assert.assertNotNull;
  * Created by Krzysztof on 2018-03-02.
  */
 public class DataReaderTest {
-    DataReader dataReader = new DataReader();
 
     @Test
-    public void NShouldBe12WhenReadingHad12() {
-        dataReader.readData("dataFiles/had12.dat");
-
-        assertEquals(12, dataReader.getN());
+    public void NShouldBe12WhenReadingHad12() throws FileNotFoundException {
+        QAPData data = QAPDataReader.readData("dataFiles/had12.dat");
+        assertEquals(12, data.getN());
     }
 
     @Test
-    public void flowMatrixShouldNotBeNull() {
-        dataReader.readData("dataFiles/had12.dat");
-
-        assertNotNull(dataReader.getFlowMatrix());
+    public void flowMatrixShouldNotBeNull() throws FileNotFoundException {
+        QAPData data = QAPDataReader.readData("dataFiles/had12.dat");
+        assertNotNull(data.getFlowMatrix());
     }
 
     @Test
-    public void distanceMatrixShouldNotBeNull() {
-        dataReader.readData("dataFiles/had12.dat");
-
-        assertNotNull(dataReader.getDistanceMatrix());
+    public void distanceMatrixShouldNotBeNull() throws FileNotFoundException {
+        QAPData data = QAPDataReader.readData("dataFiles/had12.dat");
+        assertNotNull(data.getDistanceMatrix());
     }
 }

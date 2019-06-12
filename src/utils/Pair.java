@@ -1,8 +1,5 @@
-package tools;
+package utils;
 
-/**
- * Created by Krzysztof on 2018-02-26.
- */
 public class Pair<A, B> {
     public final A a;
     public final B b;
